@@ -7,6 +7,10 @@ import opencv_stre
 import cv2
 from PIL import ImageTk, Image
 import numpy as np
+import Slider_ as sl
+
+
+
 
 global STATE
 global cap
@@ -21,19 +25,35 @@ class nootebook_frame(tk.Frame):
         self.widget()
 
 
+
+
+
     #global cap
     global STATE
     STATE = False
 
+
+
+    def giver(t):
+
+        conn.write(t)
+
     def widget(self):
+
         def conect_tk(in_tex):
             global conn
             in_tex = int(in_tex)
             conn = kom.COM__(in_tex)
+
+            but3.config(state="disabled")
+
             return conn.con()
 
-        def valu(c):
-            conn.write(c)
+        def disc():
+
+            conn.close()
+            but4.config(state="active")
+
 
         def list_insert():
             list.delete(0, "end")
@@ -53,6 +73,9 @@ class nootebook_frame(tk.Frame):
             num = it[3:4]
             #print(num)
             conect_tk(num)
+
+
+
         style = ttk.Style(self)
         style.configure('lefttab.TNotebook', tabposition='wn')
 
@@ -102,7 +125,9 @@ class nootebook_frame(tk.Frame):
             else:
                 pass
 
+        def slider():
 
+            pass
 
 
 
@@ -116,17 +141,33 @@ class nootebook_frame(tk.Frame):
 
         f1 = tk.Frame(notebook, width=200000, height=2000)
         f1.grid(sticky='nsew')
-        slid = tk.Scale(f1, from_=0, to=100, orient=tk.HORIZONTAL, command=valu)
-        slid.grid(row=0,column=1,sticky=tk.NW,columnspan=2)
+        slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider0, label= "Base")
+        slid0.grid(row=0,column=1,sticky=tk.NW,columnspan=2)
+
+        slid1 = tk.Scale(f1, from_=1, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider1)
+        slid1.grid(row=1, column=1, sticky=tk.NW, columnspan=2)
+
+        slid2 = tk.Scale(f1, from_=2, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider2)
+        slid2.grid(row=3, column=1, sticky=tk.NW, columnspan=2)
+
+        slid3 = tk.Scale(f1, from_=3, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider3)
+        slid3.grid(row=4, column=1, sticky=tk.NW, columnspan=2)
+
+        slid4 = tk.Scale(f1, from_=4, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider4)
+        slid4.grid(row=5, column=1, sticky=tk.NW, columnspan=2)
+
 
         but2 = tk.Button(f1, command=list_insert, text='COM-PORT-Liste')
-        but2.grid(row=3,column=1,sticky=tk.E)
+        but2.grid(row=6,column=1,sticky=tk.E)
 
         but3 = tk.Button(f1, command=sel, text='Connect!')
-        but3.grid(row=3,column=1,sticky=tk.W)
+        but3.grid(row=6,column=1,sticky=tk.W)
+
+        but4 = tk.Button(f1, command=disc, text='Discon!')
+        but4.grid(row=6, column=2, sticky=tk.W)
 
         list = tk.Listbox(f1)
-        list.grid(row=2,column=1,sticky=tk.EW)
+        list.grid(row=5,column=1,sticky=tk.EW,columnspan=2)
 
         f2 = tk.Frame(notebook, width=2000, height=2000)
 
