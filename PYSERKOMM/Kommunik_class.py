@@ -16,4 +16,7 @@ class COM__:
         except:
             print("ERror_beim_senden")
 
+    def closer(self):
+        self.ser.close()
+
 

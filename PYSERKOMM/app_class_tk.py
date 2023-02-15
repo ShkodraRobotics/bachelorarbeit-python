@@ -51,8 +51,8 @@ class nootebook_frame(tk.Frame):
 
         def disc():
 
-            conn.close()
-            but4.config(state="active")
+            kom.COM__.closer(conn)
+            but3.config(state="active")
 
 
         def list_insert():
@@ -142,7 +142,7 @@ class nootebook_frame(tk.Frame):
         f1 = tk.Frame(notebook, width=2000, height=2000)
         f1.grid(sticky='nsew')
         slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider0, label= "Base",resolution=10)
-        slid0.grid(row=0,column=1,sticky=tk.NW,)
+        slid0.grid(row=0,column=1,sticky=tk.NW,rowspan=2)
         slid0.set(85)
 
         slid1 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider1, label= "A3")
