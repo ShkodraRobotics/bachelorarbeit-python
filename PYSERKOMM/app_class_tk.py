@@ -139,35 +139,37 @@ class nootebook_frame(tk.Frame):
 
         notebook = ttk.Notebook(self,style='lefttab.TNotebook' )
 
-        f1 = tk.Frame(notebook, width=200000, height=2000)
+        f1 = tk.Frame(notebook, width=2000, height=2000)
         f1.grid(sticky='nsew')
-        slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider0, label= "Base")
-        slid0.grid(row=0,column=1,sticky=tk.NW,columnspan=2)
+        slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider0, label= "Base",resolution=10)
+        slid0.grid(row=0,column=1,sticky=tk.NW,)
+        slid0.set(85)
 
-        slid1 = tk.Scale(f1, from_=1, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider1)
+        slid1 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider1, label= "A3")
         slid1.grid(row=1, column=1, sticky=tk.NW, columnspan=2)
+        slid1.set(100)
 
-        slid2 = tk.Scale(f1, from_=2, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider2)
+        slid2 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider2, label= "A2")
         slid2.grid(row=3, column=1, sticky=tk.NW, columnspan=2)
-
-        slid3 = tk.Scale(f1, from_=3, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider3)
+        slid2.set(100)
+        slid3 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider3, label= "A1")
         slid3.grid(row=4, column=1, sticky=tk.NW, columnspan=2)
-
-        slid4 = tk.Scale(f1, from_=4, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider4)
+        slid3.set(12)
+        slid4 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider4, label= "Klaue")
         slid4.grid(row=5, column=1, sticky=tk.NW, columnspan=2)
-
+        slid4.set(0)
 
         but2 = tk.Button(f1, command=list_insert, text='COM-PORT-Liste')
-        but2.grid(row=6,column=1,sticky=tk.E)
+        but2.grid(row=7,column=1,sticky=tk.E)
 
         but3 = tk.Button(f1, command=sel, text='Connect!')
-        but3.grid(row=6,column=1,sticky=tk.W)
+        but3.grid(row=7,column=1,sticky=tk.W)
 
         but4 = tk.Button(f1, command=disc, text='Discon!')
-        but4.grid(row=6, column=2, sticky=tk.W)
+        but4.grid(row=7, column=2, sticky=tk.W)
 
         list = tk.Listbox(f1)
-        list.grid(row=5,column=1,sticky=tk.EW,columnspan=2)
+        list.grid(row=6,column=1,sticky=tk.EW,columnspan=2)
 
         f2 = tk.Frame(notebook, width=2000, height=2000)
 

@@ -12,15 +12,15 @@ class slid_me:
 
         at.nootebook_frame.giver(ls0)
     def slider1(i):
-        ls0 = "B" + i
+        ls0 = "B" + i+ ";"
         at.nootebook_frame.giver(ls0)
     def slider2(i):
-        ls0 = "C" + i
+        ls0 = "C" + i+ ";"
         at.nootebook_frame.giver(ls0)
     def slider3(i):
-        ls0 = "D" + i
+        ls0 = "D" + i+ ";"
         at.nootebook_frame.giver(ls0)
     def slider4(i):
-        ls0 = "E" + i
+        ls0 = "E" + i+ ";"
         at.nootebook_frame.giver(ls0)
 
