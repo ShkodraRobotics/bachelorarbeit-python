@@ -14,7 +14,7 @@ import Slider_ as sl
 
 global STATE
 global cap
-
+#Klasse erbt von tk.frame und ist für das vidoe da
 class nootebook_frame(tk.Frame):
 
     def __init__(self,cont):
@@ -23,11 +23,6 @@ class nootebook_frame(tk.Frame):
         self.columnconfigure(1,weight=1)
         STATE = False
         self.widget()
-
-
-
-
-
     #global cap
     global STATE
     STATE = False
@@ -39,6 +34,9 @@ class nootebook_frame(tk.Frame):
         conn.write(t)
 
     def widget(self):
+#connest bekommt die nummer gesliced aus dem text
+#global conn um zuzugreifen
+#ein objekt non Comm die klasse verbindet metro mit laptop
 
         def conect_tk(in_tex):
             global conn
@@ -48,13 +46,13 @@ class nootebook_frame(tk.Frame):
             but3.config(state="disabled")
 
             return conn.con()
-
+#hebt die verbindung auf funktioniert lösch aber objekt nicht
         def disc():
 
             kom.COM__.closer(conn)
             but3.config(state="active")
 
-
+#erstellt eine liste aller com ports und insertet sie in die liste
         def list_insert():
             list.delete(0, "end")
             li_por = []
@@ -64,7 +62,8 @@ class nootebook_frame(tk.Frame):
                 li_por.append(str(i))
             for i in li_por:
                 list.insert('end', i)
-
+# Selection wird von button aufgerufen und bekommt was augewähltwurde damit der name complet in der liste angezeigt wird wird
+# der slice verwendet user sieht vollen namen übergeben wird eine nummer an connect_tk
         def sel():
             sell = list.curselection()
             for i in sell:
@@ -84,7 +83,9 @@ class nootebook_frame(tk.Frame):
             vid_num = video_source.get()
             int(vid_num)
             video(vid_num)
-
+# hier wird die nummer eingegeen für die kammera die man beutzen will
+# cap objekt die das video aufnimmt von der gewählten quelle cap als global um zugriff zu haben
+# stream wird aufgerufen
         def video(num_sorce):
             try:
                 global cap
@@ -104,13 +105,14 @@ class nootebook_frame(tk.Frame):
             cap = 0
             #cv2.VideoCapture.release()
             STATE = True
-
+# um den stream aufzuhalten funktioniert noch nicht richtig
         def stream_braker2():
             global STATE
             STATE = False
             frame_()
 
-
+# cap wird eingelesen keine übergabe da global noch keine bearbeitung oder erkennung bild wird in tk bidl umgewandelt
+# um es ins canvas zu tun damit es im bild angezeigt wird
         def stream():
             _,frame = cap.read()
             image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -128,25 +130,17 @@ class nootebook_frame(tk.Frame):
         def slider():
 
             pass
-
-
-
-
-
-
-
-
-
+#die buttons und slider
         notebook = ttk.Notebook(self,style='lefttab.TNotebook' )
 
         f1 = tk.Frame(notebook, width=2000, height=2000)
         f1.grid(sticky='nsew')
-        slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider0, label= "Base",resolution=10)
-        slid0.grid(row=0,column=1,sticky=tk.NW,rowspan=2)
+        slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider0, label= "Base")
+        slid0.grid(row=1,column=1,sticky=tk.NW,)
         slid0.set(85)
 
         slid1 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider1, label= "A3")
-        slid1.grid(row=1, column=1, sticky=tk.NW, columnspan=2)
+        slid1.grid(row=2, column=1, sticky=tk.NW, columnspan=2)
         slid1.set(100)
 
         slid2 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider2, label= "A2")
@@ -191,7 +185,7 @@ class nootebook_frame(tk.Frame):
         notebook.add(f1, text='Controll',)
         notebook.add(f2, text='Frame 2')
         notebook.grid(row=0, column=0, sticky="nw")
-
+# klasse app die von tk erbt und von app-app aufgerufen wird
 class app(tk.Tk):
     def __init__(self):
         super().__init__()
