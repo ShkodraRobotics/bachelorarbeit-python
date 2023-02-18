@@ -8,6 +8,9 @@ import cv2
 from PIL import ImageTk, Image
 import numpy as np
 import Slider_ as sl
+import Servo_KL as sr
+
+
 
 
 
@@ -16,22 +19,80 @@ global STATE
 global cap
 #Klasse erbt von tk.frame und ist für das vidoe da
 class nootebook_frame(tk.Frame):
-
+    global roboOB
+    roboOB = sr.Robo_arm()
+    sliderOB = sl.slid_me()
     def __init__(self,cont):
         super().__init__(cont)
         self.columnconfigure(0,weight=1)
         self.columnconfigure(1,weight=1)
         STATE = False
         self.widget()
+        sl.slid_me.objektTaker(roboOB)
+
+
     #global cap
     global STATE
     STATE = False
+    @classmethod
+    def ausgCaller(cls):
+        posi = roboOB.ausgag()
+        print(posi)
+        for data in posi:
+            nootebook_frame.giver(data)
+
+    @classmethod
+    def greifCaller(cls,po):
+        posi = po
+        print(posi)
+        for data in posi:
+            nootebook_frame.giver2(data)
 
 
 
-    def giver(t):
+    @classmethod
+    def giver(cls,t):
+
+        if t.startswith("A"):
+            k = t.strip("A")
+            k = k.rstrip(";")
+            print(k)
+            roboOB.setBase(k)
+        elif t.startswith("B"):
+            k = t.strip("B")
+            k = k.rstrip(";")
+            print(k)
+            roboOB.setA3(k)
+        elif t.startswith("C"):
+            k = t.strip("C")
+            k = k.rstrip(";")
+            print(k)
+            roboOB.setA2(k)
+        elif t.startswith("D"):
+            k = t.strip("D")
+            k = k.rstrip(";")
+            print(k)
+            roboOB.setA1(k)
+        elif t.startswith("E"):
+            k = t.strip("E")
+            k = k.rstrip(";")
+            print(k)
+            roboOB.setKlaue(k)
+        else:
+            print("ERRROR bei seten unerwarteter wert")
 
         conn.write(t)
+
+    @classmethod
+    def giver2(cls, t):
+        conn.write(t)
+
+    def greif(t):
+
+        roboOB.greif_posi(t)
+
+
+
 
     def widget(self):
 #connest bekommt die nummer gesliced aus dem text
@@ -43,7 +104,7 @@ class nootebook_frame(tk.Frame):
             in_tex = int(in_tex)
             conn = kom.COM__(in_tex)
 
-            but3.config(state="disabled")
+            #but3.config(state="disabled")
 
             return conn.con()
 #hebt die verbindung auf funktioniert lösch aber objekt nicht
@@ -105,13 +166,14 @@ class nootebook_frame(tk.Frame):
             cap = 0
             #cv2.VideoCapture.release()
             STATE = True
-# um den stream aufzuhalten funktioniert noch nicht richtig
+# um den stream aufzuhalten, funktioniert noch nicht richtig
         def stream_braker2():
             global STATE
             STATE = False
             frame_()
 
-# cap wird eingelesen keine übergabe da global noch keine bearbeitung oder erkennung bild wird in tk bidl umgewandelt
+
+# cap wird eingelesen keine übergabe da global noch keine bearbeitung oder erkennung bild wird in tk bild umgewandelt
 # um es ins canvas zu tun damit es im bild angezeigt wird
         def stream():
             _,frame = cap.read()
@@ -139,6 +201,7 @@ class nootebook_frame(tk.Frame):
         slid0.grid(row=1,column=1,sticky=tk.NW,)
         slid0.set(85)
 
+
         slid1 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider1, label= "A3")
         slid1.grid(row=2, column=1, sticky=tk.NW, columnspan=2)
         slid1.set(100)
@@ -150,8 +213,14 @@ class nootebook_frame(tk.Frame):
         slid3.grid(row=4, column=1, sticky=tk.NW, columnspan=2)
         slid3.set(12)
         slid4 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider4, label= "Klaue")
-        slid4.grid(row=5, column=1, sticky=tk.NW, columnspan=2)
+        slid4.grid(row=5, column=1, sticky=tk.NW, columnspan=2,)
         slid4.set(0)
+
+
+
+        slid5 = tk.Scale(f1, from_=180, to=0, orient=tk.VERTICAL, command=nootebook_frame.greif, label="Greifer")
+        slid5.grid(row=5, column=2, sticky=tk.NW, columnspan=2)
+        slid5.set(0)
 
         but2 = tk.Button(f1, command=list_insert, text='COM-PORT-Liste')
         but2.grid(row=7,column=1,sticky=tk.E)
@@ -161,7 +230,8 @@ class nootebook_frame(tk.Frame):
 
         but4 = tk.Button(f1, command=disc, text='Discon!')
         but4.grid(row=7, column=2, sticky=tk.W)
-
+        but5 = tk.Button(f1, command=nootebook_frame.ausgCaller, text='ausgang')
+        but5.grid(row=7, column=3)
         list = tk.Listbox(f1)
         list.grid(row=6,column=1,sticky=tk.EW,columnspan=2)
 
@@ -180,6 +250,7 @@ class nootebook_frame(tk.Frame):
         but5.grid(row=3, column=1)
         but6 = tk.Button(f2, command=stream_braker2, text='VIdeo')
         but6.grid(row=3, column=2)
+
         canvas = tk.Canvas(f2, width=640, height=480)
         canvas.grid(column=0,row=1)
         notebook.add(f1, text='Controll',)
@@ -192,22 +263,8 @@ class app(tk.Tk):
         self.title('RoBo-Vission')
         self.geometry('1600x840')
         self.resizable(True, True)
-
         self.widget()
+
     def widget(self):
         fram1 = nootebook_frame(self)
         fram1.grid(column = 0 , row = 0)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
