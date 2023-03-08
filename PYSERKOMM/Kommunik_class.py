@@ -22,8 +22,6 @@ class COM__:
             self.ser.write(data)
         except:
             print("ERror_beim_senden")
-
-
     @classmethod
     def write2(cls, data, instanz):
         try:
