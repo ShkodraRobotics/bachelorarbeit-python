@@ -82,6 +82,7 @@ class Robo_arm:
 class Rob:
     @staticmethod
     def cls_greif_posi(pos, A2, A1):
+        pos/=180
         greif_posA2 = int(A2) + int(pos)
         greif_posA1 = int(A1) - int(pos)
         if greif_posA1 < 0:
