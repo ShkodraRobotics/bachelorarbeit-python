@@ -1,19 +1,19 @@
-class sep:
+import serial
 
-    def __init__(self):
-        pass
+#cn = serial.Serial("COM9", 115200)
 
-    def seper(s):
-        li = []
-        helpers = ""
-        for data in s:
-            helper = data
 
-            if helper == ";":
-                li.append(helpers)
-                helpers = ""
-            else:
-                helpers += helper
 
-        for da in li:
-            return (da)
+for d in range(180,1):
+    print(d)
+
+
+
+
+
+
+
+
+
+
+
