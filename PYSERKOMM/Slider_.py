@@ -1,6 +1,6 @@
 import app_class_tk as at
 
-import tester as t
+
 class slid_me:
     def __init__(self):
         pass

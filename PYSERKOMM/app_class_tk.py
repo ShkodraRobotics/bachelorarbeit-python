@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 import numpy as np
 import Slider_ as sl
 import Servo_KL as sr
-
+import threading
 
 
 
@@ -20,8 +20,9 @@ global cap
 #Klasse erbt von tk.frame und ist für das vidoe da
 class nootebook_frame(tk.Frame):
     global roboOB
+    global th2
     roboOB = sr.Robo_arm()
-    sliderOB = sl.slid_me()
+
     def __init__(self,cont):
         super().__init__(cont)
         self.columnconfigure(0,weight=1)
@@ -86,6 +87,7 @@ class nootebook_frame(tk.Frame):
     @classmethod
     def giver2(cls, t):
         conn.write(t)
+        #print(t)
 
     def greif(t):
 
@@ -98,6 +100,7 @@ class nootebook_frame(tk.Frame):
 #connest bekommt die nummer gesliced aus dem text
 #global conn um zuzugreifen
 #ein objekt non Comm die klasse verbindet metro mit laptop
+        global th2
 
         def conect_tk(in_tex):
             global conn
@@ -192,7 +195,57 @@ class nootebook_frame(tk.Frame):
         def slider():
 
             pass
-#die buttons und slider
+
+        def controller_loper(k):
+            while STATE:
+                k.con_loop()
+
+        def Man_steuerung(x):
+            global stop_event
+            stop_event = threading.Event()
+            STATE = True
+            a1 = roboOB.A1
+            a2 = roboOB.A2
+            a3 = roboOB.A3
+            base = roboOB.Base
+            klaue = roboOB.Klaue
+            import Controller
+            Kontroller = Controller.Controller(base,a3,a2,a1,klaue)
+            Kontroller.controller_cn()
+            while True:
+
+                Kontroller.con_loop()
+                if stop_event.is_set():
+                    break
+
+
+
+
+        def Man_steuerung_dek():
+            exitflag1 = True
+            th2 = threading.Thread(target=Man_steuerung, args =(lambda : exitflag1, ),daemon=True)
+            th2.start()
+        def man_dak():
+            x = False
+            #Man_steuerung_dek(x)
+            stop_event.set()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #die buttons und slider
         notebook = ttk.Notebook(self,style='lefttab.TNotebook' )
 
         f1 = tk.Frame(notebook, width=2000, height=2000)
@@ -251,20 +304,59 @@ class nootebook_frame(tk.Frame):
         but6 = tk.Button(f2, command=stream_braker2, text='VIdeo')
         but6.grid(row=3, column=2)
 
+
+
+
+
+        f3 = tk.Frame(notebook, width=2000, height=2000)
+        f3.grid(sticky='nsew')
+
+        but1_F3 = tk.Button(f3,command=Man_steuerung_dek, text='Kontroller')
+        but1_F3.grid(row=0, column=0)
+        but2_F3 = tk.Button(f3,command=man_dak, text='Kontroller-Deaktivieren')
+        but2_F3.grid(row=1, column=0)
+
+
         canvas = tk.Canvas(f2, width=640, height=480)
         canvas.grid(column=0,row=1)
         notebook.add(f1, text='Controll',)
         notebook.add(f2, text='Frame 2')
+        notebook.add(f3, text='Manuell')
         notebook.grid(row=0, column=0, sticky="nw")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # klasse app die von tk erbt und von app-app aufgerufen wird
 class app(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('RoBo-Vission')
-        self.geometry('1600x840')
+        self.geometry('1300x640')
         self.resizable(True, True)
         self.widget()
 
     def widget(self):
         fram1 = nootebook_frame(self)
         fram1.grid(column = 0 , row = 0)
+
+
+
+if __name__ == '__main__':
+    App = app()
+    App.mainloop()
