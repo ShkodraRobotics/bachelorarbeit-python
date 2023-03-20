@@ -14,20 +14,20 @@ class Robo_arm:
         self.A3 = 0
 
     def setKlaue(self, klaue):
-        self.Klaue = klaue
+        self.Klaue = int(klaue)
         print(self.Klaue)
 
     def setBase(self, base):
-        self.Base = base
+        self.Base = int(base)
 
     def setA1(self, a1):
-        self.A1 = a1
+        self.A1 = int(a1)
 
     def setA2(self, a2):
-        self.A2 = a2
+        self.A2 = int(a2)
 
     def setA3(self, a3):
-        self.A3 = a3
+        self.A3 = int(a3)
 
     def ausgag(self):
         base = 'A0;'

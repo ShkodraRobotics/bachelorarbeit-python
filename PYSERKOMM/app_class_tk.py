@@ -1,3 +1,4 @@
+import time
 import tkinter as tk
 from tkinter import ttk
 import serial
@@ -22,7 +23,7 @@ class nootebook_frame(tk.Frame):
     global roboOB
     global th2
     roboOB = sr.Robo_arm()
-    sliderOB = sl.slid_me()
+    #sliderOB = sl.slid_me()
 
     def __init__(self,cont):
         super().__init__(cont)
@@ -162,6 +163,8 @@ class nootebook_frame(tk.Frame):
 
                 #global cap
                 print('Video-Läuft')
+                #th3 =threading.Thread(target=stream,daemon=True)
+                #th3.start()
                 stream()
             except ValueError:
                 print('kein-Video')
@@ -180,18 +183,18 @@ class nootebook_frame(tk.Frame):
 # cap wird eingelesen keine übergabe da global noch keine bearbeitung oder erkennung bild wird in tk bild umgewandelt
 # um es ins canvas zu tun damit es im bild angezeigt wird
         def stream():
-            _,frame = cap.read()
-            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            image = Image.fromarray(image)
-            image = ImageTk.PhotoImage(image)
 
-            canvas.create_image(0,0, image = image,anchor = tk.NW)
-            self.update()
+            while True:
+                _,frame = cap.read()
+                image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                image = Image.fromarray(image)
+                image = ImageTk.PhotoImage(image)
 
-            if STATE == False:
-                canvas.after(10,stream())
-            else:
-                pass
+                canvas.create_image(0,0, image = image,anchor = tk.NW)
+                self.update()
+                #time.sleep(0.2)
+
+
 
         def slider():
 
@@ -357,7 +360,9 @@ class app(tk.Tk):
         fram1.grid(column = 0 , row = 0)
 
 
-
+"""
 if __name__ == '__main__':
     App = app()
     App.mainloop()
+    
+    """

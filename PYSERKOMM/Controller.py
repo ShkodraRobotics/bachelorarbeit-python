@@ -29,8 +29,8 @@ class Controller:
 
     def write2(self, data):
         try:
-            data = str(data)
-            data = data.encode()
+            """data = str(data)
+            data = data.encode()"""
             ap.nootebook_frame.giver2(data)
         except:
             print("ERror_beim_senden")
@@ -133,7 +133,8 @@ class Controller:
             if greifer > 128:
                 self.gr -= int(self.skal(greifer))
             elif greifer < 128:
-                self.gr += int(self.skal(127-greifer+127))
+                self.gr += int(self.skal(127-greifer+127)+10)
+                print(self.skal(127-greifer+127)+10)
             if self.gr > 180:
                 self.gr = 180
             elif self.gr < -180:
