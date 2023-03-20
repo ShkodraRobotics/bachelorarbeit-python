@@ -22,6 +22,7 @@ class nootebook_frame(tk.Frame):
     global roboOB
     global th2
     roboOB = sr.Robo_arm()
+    sliderOB = sl.slid_me()
 
     def __init__(self,cont):
         super().__init__(cont)
