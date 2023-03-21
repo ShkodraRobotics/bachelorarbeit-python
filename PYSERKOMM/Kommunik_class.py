@@ -9,8 +9,8 @@ class COM__:
         self.port = port
         self.ser = None
     def con(self):
-        #self.ser = serial.Serial('COM' + str(self.port), 115200)  # open serial port
-        self.ser = serial.Serial('COM9', 115200)  # open serial port
+        self.ser = serial.Serial('COM' + str(self.port), 115200)  # open serial port
+        #self.ser = serial.Serial('COM9', 115200)  # open serial port
         ser2 = serial.Serial('COM' + str(self.port), 115200)  # open serial port
        
         return ser2
