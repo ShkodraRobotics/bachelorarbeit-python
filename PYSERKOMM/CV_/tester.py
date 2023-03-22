@@ -1,9 +1,8 @@
-import test2
+lis = ['A87;', 'A90;']
 
-serob = test2.kon()
-serob.con()
-serob.writter("C102;")
 
+
+print(lis[0][0])
 
 
 

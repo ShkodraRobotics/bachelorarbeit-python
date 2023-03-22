@@ -19,18 +19,20 @@ class COM__:
     def write(self,data):
         try:
             data = str(data)
+            print(data)
             data = data.encode()
             self.ser.write(data)
         except:
-            print("ERror_beim_senden")
+            print("Error_beim_senden")
     @classmethod
     def write2(cls, data, instanz):
         try:
             data = str(data)
+            print(data)
             data = data.encode()
             instanz.ser.write(data)
         except:
-            print("ERror_beim_senden")
+            print("Error_beim_senden")
 
     def closer(self):
         self.ser.close()

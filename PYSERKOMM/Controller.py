@@ -28,12 +28,15 @@ class Controller:
             self.write2(d)
 
     def write2(self, data):
+        print(data)
         try:
             """data = str(data)
             data = data.encode()"""
             ap.nootebook_frame.giver2(data)
+            print(data)
         except:
-            print("ERror_beim_senden")
+            pass
+            #print("Error_beim_senden")
 
     def controller_cn(self):
         try:
@@ -51,11 +54,11 @@ class Controller:
         if ba > 128:
             skale = ba
             skale = ((ba - 128) / 127) * 10
-            print(ba)
-            print(self.skal(127-ba+127))
+            #print(ba)
+            #print(self.skal(127-ba+127))
             self.base -= int(self.skal(ba))
         elif ba < 128:
-            print(self.skal(127 - ba + 127))
+            #print(self.skal(127 - ba + 127))
             skale2 = ((((ba / 127) * 10) - 10) * (-1))
             self.base += int(self.skal(127-ba+127))
         if self.base > 180:
@@ -134,18 +137,19 @@ class Controller:
                 self.gr -= int(self.skal(greifer))
             elif greifer < 128:
                 self.gr += int(self.skal(127-greifer+127)+10)
-                print(self.skal(127-greifer+127)+10)
+                #print(self.skal(127-greifer+127)+10)
             if self.gr > 180:
                 self.gr = 180
             elif self.gr < -180:
                 self.gr = -180
-            print("posi" + str(self.gr))
+            #print("posi" + str(self.gr))
             A1, A2, self.A1, self.A2 = Servo_KL.Rob.cls_greif_posi(self.gr, self.A2, self.A1)
 
         dec_rep = [A1, A2, A3, basis,kl]
 
-        # time.sleep(2)
-        self.print(dec_rep)
+        #time.sleep(.5)
+        #print(dec_rep)
+        return dec_rep
 
     def skal(self, x):
         if x > 240:
@@ -169,5 +173,6 @@ class Controller:
     def con_loop(self):
 
         report = self.gamepad.read(10)
-        self.dec(report)
+        data = self.dec(report)
         # print([report[0]])
+        return data

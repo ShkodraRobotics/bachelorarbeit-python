@@ -1,27 +1,23 @@
-import app_class_tk as at
+from PYSERKOMM.app_class_tk import nootebook_frame
 
 
-class slid_me:
+class slid_me(nootebook_frame):
     def __init__(self):
-        pass
-
-    def objektTaker(objaekt):
-       ob = objaekt
-    def slider0 (i):
+        super().__init__()
+    def slider0 (self,i):
         ls0 = "A" + i + ";"
-
-        #ob.setKlaue(i)
-        at.nootebook_frame.giver(ls0)
-    def slider1(i):
+        nootebook_frame.giver(i)
+        #return ls0
+    def slider1(self,i):
         ls0 = "B" + i+ ";"
-        at.nootebook_frame.giver(ls0)
-    def slider2(i):
+        return ls0
+    def slider2(self,i):
         ls0 = "C" + i+ ";"
-        at.nootebook_frame.giver(ls0)
-    def slider3(i):
+        return ls0
+    def slider3(self,i):
         ls0 = "D" + i+ ";"
-        at.nootebook_frame.giver(ls0)
-    def slider4(i):
+        return ls0
+    def slider4(self,i):
         ls0 = "E" + i+ ";"
-        at.nootebook_frame.giver(ls0)
+        return ls0
 

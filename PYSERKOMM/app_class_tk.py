@@ -11,27 +11,49 @@ import numpy as np
 import Slider_ as sl
 import Servo_KL as sr
 import threading
-
-
-
-
-
+import Aufnamhe_mod as am
 global STATE
 global cap
 #Klasse erbt von tk.frame und ist für das vidoe da
 class nootebook_frame(tk.Frame):
     global roboOB
     global th2
-    roboOB = sr.Robo_arm()
-    #sliderOB = sl.slid_me()
 
-    def __init__(self,cont):
-        super().__init__(cont)
+
+
+    def __init__(self):
+        super().__init__()
         self.columnconfigure(0,weight=1)
         self.columnconfigure(1,weight=1)
         STATE = False
         self.widget()
-        sl.slid_me.objektTaker(roboOB)
+
+        self.status = 0
+        self.rec = am.rec()
+        self.roboOB = sr.Robo_arm()
+        self.A1 = None
+        self.A2 = None
+        self.A3 = None
+        self.Base = None
+        self.KL = None
+
+
+    def statusGeter(self):
+        return self.status
+
+    def statusSetter_ON(self):
+        self.status = 1
+    def statusSeter_OFF(self):
+        self.status = 0
+
+    def printer(self):
+        self.rec.print()
+        self.rec.speichern()
+    def rec_auf(self):
+        data = self.rec.offnen()
+        for d in data:
+            self.giver(d)
+            #print(d)
 
 
     #global cap
@@ -51,44 +73,68 @@ class nootebook_frame(tk.Frame):
         for data in posi:
             nootebook_frame.giver2(data)
 
-
-
-    @classmethod
-    def giver(cls,t):
-
+    def status_ch(self):
+        print(self.status)
+        self.status = 1
+        print(self.status)
+    def giver(self,t):
+        print(t)
         if t.startswith("A"):
+            if t != self.Base:
+                self.Base = t
+                if self.statusGeter() == 1:
+                    self.rec.aufn(t)
             k = t.strip("A")
             k = k.rstrip(";")
-            print(k)
-            roboOB.setBase(k)
+            #print("ich bin k " + k)
+            self.roboOB.setBase(k)
         elif t.startswith("B"):
+            if t != self.A3:
+                self.A3 = t
+                if self.statusGeter() == 1:
+                    self.rec.aufn(t)
             k = t.strip("B")
             k = k.rstrip(";")
-            print(k)
-            roboOB.setA3(k)
+            #print(k)
+            self.roboOB.setA3(k)
         elif t.startswith("C"):
+            if t != self.A2:
+                self.A2 = t
+                if self.statusGeter() == 1:
+                    self.rec.aufn(t)
             k = t.strip("C")
             k = k.rstrip(";")
             print(k)
-            roboOB.setA2(k)
+            self.roboOB.setA2(k)
         elif t.startswith("D"):
+            if t != self.A1:
+                self.A1 = t
+                if self.statusGeter() == 1:
+                    self.rec.aufn(t)
             k = t.strip("D")
             k = k.rstrip(";")
-            print(k)
-            roboOB.setA1(k)
+            #print(k)
+            self.roboOB.setA1(k)
         elif t.startswith("E"):
+            if t != self.KL:
+                self.KL = t
+                if self.statusGeter() == 1:
+                    self.rec.aufn(t)
             k = t.strip("E")
             k = k.rstrip(";")
-            print(k)
-            roboOB.setKlaue(k)
+            #print(k)
+            self.roboOB.setKlaue(k)
         else:
-            print("ERRROR bei seten unerwarteter wert")
+            print("ERRROR beim senden unerwarteter wert")
 
         conn.write(t)
 
     @classmethod
     def giver2(cls, t):
-        conn.write(t)
+        if nootebook_frame.statusGeter() == 1:
+            self.rec.aufn(t)
+
+        #conn.write(t)
         #print(t)
 
     def greif(t):
@@ -203,28 +249,25 @@ class nootebook_frame(tk.Frame):
         def controller_loper(k):
             while STATE:
                 k.con_loop()
-
         def Man_steuerung(x):
             global stop_event
             stop_event = threading.Event()
             STATE = True
-            a1 = roboOB.A1
-            a2 = roboOB.A2
-            a3 = roboOB.A3
-            base = roboOB.Base
-            klaue = roboOB.Klaue
+            a1 = self.roboOB.A1
+            a2 = self.roboOB.A2
+            a3 = self.roboOB.A3
+            base = self.roboOB.Base
+            klaue = self.roboOB.Klaue
             import Controller
             Kontroller = Controller.Controller(base,a3,a2,a1,klaue)
             Kontroller.controller_cn()
             while True:
 
-                Kontroller.con_loop()
+                data = Kontroller.con_loop()
+                for d in data:
+                    self.giver(d)
                 if stop_event.is_set():
                     break
-
-
-
-
         def Man_steuerung_dek():
             exitflag1 = True
             th2 = threading.Thread(target=Man_steuerung, args =(lambda : exitflag1, ),daemon=True)
@@ -235,9 +278,32 @@ class nootebook_frame(tk.Frame):
             stop_event.set()
 
 
+        def slider0(i):
+            str(i)
+
+            ls0 = "A" + i + ";"
+            #print(" ich bin im slider " + ls0)
+            self.giver(ls0)
 
 
+        def slider1(i):
+            str(i)
+            ls0 = "B" + i + ";"
+            self.giver(ls0)
 
+
+        def slider2(i):
+            str(i)
+            ls0 = "C" + i + ";"
+            self.giver(ls0)
+        def slider3(i):
+            str(i)
+            ls0 = "D" + i + ";"
+            self.giver(ls0)
+        def slider4(i):
+            str(i)
+            ls0 = "E" + i + ";"
+            self.giver(ls0)
 
 
 
@@ -254,22 +320,22 @@ class nootebook_frame(tk.Frame):
 
         f1 = tk.Frame(notebook, width=2000, height=2000)
         f1.grid(sticky='nsew')
-        slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider0, label= "Base")
+        slid0 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=slider0, label= "Base")
         slid0.grid(row=1,column=1,sticky=tk.NW,)
         slid0.set(85)
 
 
-        slid1 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider1, label= "A3")
+        slid1 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=slider1, label= "A3")
         slid1.grid(row=2, column=1, sticky=tk.NW, columnspan=2)
         slid1.set(100)
 
-        slid2 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider2, label= "A2")
+        slid2 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=slider2, label= "A2")
         slid2.grid(row=3, column=1, sticky=tk.NW, columnspan=2)
         slid2.set(100)
-        slid3 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider3, label= "A1")
+        slid3 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=slider3, label= "A1")
         slid3.grid(row=4, column=1, sticky=tk.NW, columnspan=2)
         slid3.set(12)
-        slid4 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=sl.slid_me.slider4, label= "Klaue")
+        slid4 = tk.Scale(f1, from_=0, to=180, orient=tk.HORIZONTAL, command=slider4, label= "Klaue")
         slid4.grid(row=5, column=1, sticky=tk.NW, columnspan=2,)
         slid4.set(0)
 
@@ -290,7 +356,7 @@ class nootebook_frame(tk.Frame):
         but5 = tk.Button(f1, command=nootebook_frame.ausgCaller, text='ausgang')
         but5.grid(row=7, column=3)
         list = tk.Listbox(f1)
-        list.grid(row=6,column=1,sticky=tk.EW,columnspan=2)
+        list.grid(row=6,column=1,sticky=tk.EW,columnspan=3)
 
         f2 = tk.Frame(notebook, width=2000, height=2000)
 
@@ -319,6 +385,13 @@ class nootebook_frame(tk.Frame):
         but1_F3.grid(row=0, column=0)
         but2_F3 = tk.Button(f3,command=man_dak, text='Kontroller-Deaktivieren')
         but2_F3.grid(row=1, column=0)
+        but3_F3 = tk.Button(f3,command=self.statusSetter_ON, text='Aufnahme-aktiviere')
+        but3_F3.grid(row=2, column=0)
+        but4_F3 = tk.Button(f3,command=self.printer, text='Aufnahme-Speichern')
+        but4_F3.grid(row=3, column=0)
+        but5_F3 = tk.Button(f3,command=self.rec_auf, text='Aufnahme-Abspielen')
+        but5_F3.grid(row=4, column=0)
+
 
 
         canvas = tk.Canvas(f2, width=640, height=480)
@@ -356,7 +429,7 @@ class app(tk.Tk):
         self.widget()
 
     def widget(self):
-        fram1 = nootebook_frame(self)
+        fram1 = nootebook_frame()
         fram1.grid(column = 0 , row = 0)
 
 
