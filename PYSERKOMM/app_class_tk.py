@@ -184,13 +184,8 @@ class nootebook_frame(tk.Frame):
             num = it[3:4]
             #print(num)
             conect_tk(num)
-
-
-
         style = ttk.Style(self)
         style.configure('lefttab.TNotebook', tabposition='wn')
-
-
         def frame_():
             vid_num = video_source.get()
             int(vid_num)
@@ -224,8 +219,6 @@ class nootebook_frame(tk.Frame):
             global STATE
             STATE = False
             frame_()
-
-
 # cap wird eingelesen keine übergabe da global noch keine bearbeitung oder erkennung bild wird in tk bild umgewandelt
 # um es ins canvas zu tun damit es im bild angezeigt wird
         def stream():
@@ -239,9 +232,6 @@ class nootebook_frame(tk.Frame):
                 canvas.create_image(0,0, image = image,anchor = tk.NW)
                 self.update()
                 #time.sleep(0.2)
-
-
-
         def slider():
 
             pass
@@ -276,22 +266,16 @@ class nootebook_frame(tk.Frame):
             x = False
             #Man_steuerung_dek(x)
             stop_event.set()
-
-
         def slider0(i):
             str(i)
 
             ls0 = "A" + i + ";"
             #print(" ich bin im slider " + ls0)
             self.giver(ls0)
-
-
         def slider1(i):
             str(i)
             ls0 = "B" + i + ";"
             self.giver(ls0)
-
-
         def slider2(i):
             str(i)
             ls0 = "C" + i + ";"
@@ -304,16 +288,6 @@ class nootebook_frame(tk.Frame):
             str(i)
             ls0 = "E" + i + ";"
             self.giver(ls0)
-
-
-
-
-
-
-
-
-
-
 
         #die buttons und slider
         notebook = ttk.Notebook(self,style='lefttab.TNotebook' )
@@ -400,25 +374,6 @@ class nootebook_frame(tk.Frame):
         notebook.add(f2, text='Frame 2')
         notebook.add(f3, text='Manuell')
         notebook.grid(row=0, column=0, sticky="nw")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # klasse app die von tk erbt und von app-app aufgerufen wird
 class app(tk.Tk):
     def __init__(self):
