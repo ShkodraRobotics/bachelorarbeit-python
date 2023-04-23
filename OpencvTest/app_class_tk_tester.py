@@ -1,12 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 import serial
-import Kommunik_class as kom
+import Kommunikation as kom
 import serial.tools.list_ports
-import opencv_stre
 import cv2
 from PIL import ImageTk, Image
-import numpy as np
 
 global STATE
 global cap

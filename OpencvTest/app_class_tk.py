@@ -1,15 +1,11 @@
-import time
 import tkinter as tk
 from tkinter import ttk
 import serial
-import Kommunik_class as kom
+import Kommunikation as kom
 import serial.tools.list_ports
-import opencv_stre
 import cv2
 from PIL import ImageTk, Image
-import numpy as np
-import Slider_ as sl
-import Servo_KL as sr
+import ServoMotoren as sr
 import threading
 import Aufnamhe_mod as am
 global STATE

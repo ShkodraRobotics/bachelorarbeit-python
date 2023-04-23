@@ -1,9 +1,9 @@
 import hid
 import serial
 import time
-from Kommunik_class import COM__
+from Kommunikation import COM__
 import serial
-import Servo_KL
+import ServoMotoren
 #from Servo_KL import Rob
 import app_class_tk as ap
 class Controller:

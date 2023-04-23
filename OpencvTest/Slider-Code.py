@@ -1,4 +1,4 @@
-from PYSERKOMM.app_class_tk import nootebook_frame
+from OpencvTest.app_class_tk import nootebook_frame
 
 
 class slid_me(nootebook_frame):

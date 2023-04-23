@@ -1,4 +1,4 @@
-import Kommunik_class as ko
+import Kommunikation as ko
 import app_class_tk as a
 
 
